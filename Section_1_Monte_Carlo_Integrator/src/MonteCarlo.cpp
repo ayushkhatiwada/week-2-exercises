@@ -21,11 +21,20 @@ double IntegrateMonteCarlo3D(int n_points, double min, double max, int seed, con
     std::uniform_real_distribution<double> uniform_real_dist(min, max);
     std::mt19937 rng_mt(seed);
 
+
+    // BAD: rng_mt is copied, rng inside get_random_double advances, the original rng_mt does not
+    // auto get_random_double = std::bind(uniform_real_dist, rng_mt);
+    
+    // Fix: Bind the engine by reference 
+    auto get_random_double = std::bind(uniform_real_dist, std::ref(rng_mt));
+    
+    // In general, best not to use std::bind, modern C++ largely avoids std::bind
+
     for(int i = 0; i < n_points; i++)
     {
         //generate random points here
-        double x = uniform_real_dist(rng_mt);
-        double y = uniform_real_dist(rng_mt);
+        double x = get_random_double();
+        double y = get_random_double();
         double z = uniform_real_dist(rng_mt);
         if(function(x, y, z)) count++;
     }
