@@ -1,5 +1,4 @@
 #include <memory>
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -22,7 +21,7 @@ public:
 
     int getId() const;
 
-    void setHub(std::shared_ptr<Hub> hub);
+    void setHub(const std::shared_ptr<Hub> &hub);
 
 private:
     // Static variable means same value shared by every object in class
@@ -33,7 +32,7 @@ private:
     int id;
 
     // add a pointer to the Hub here
-    std::shared_ptr<Hub> hub;
+    std::weak_ptr<Hub> hub;
 };
 
 class Hub

@@ -1,6 +1,5 @@
 #include <memory>
 #include <iostream>
-#include <vector>
 
 /**
  * A simple class which just reports when it is created (constructor) and when it is destroyed (destructor).

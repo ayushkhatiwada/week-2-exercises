@@ -22,8 +22,8 @@ int Node::getId() const
 // This is because they are only initialised ONCE, not individually for every object.
 int Node::next_id = 0;
 
-void Node::setHub(std::shared_ptr<Hub> hub) {
-    this->hub = std::move(hub);
+void Node::setHub(const std::shared_ptr<Hub> &hub) {
+    this->hub = hub;
 }
 
 
