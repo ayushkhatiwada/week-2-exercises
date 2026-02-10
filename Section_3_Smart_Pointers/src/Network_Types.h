@@ -1,6 +1,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 // Forward declaration of Hub class.
 // This is needed to let the compiler know that a type called
@@ -25,6 +26,8 @@ public:
 
     void setHub(const std::weak_ptr<Hub> &hub);
 
+    std::shared_ptr<Hub> getHub() const;
+
 private:
     // Static variable means same value shared by every object in class
     // This allows us to create a unique id for each Node by increasing
@@ -45,9 +48,13 @@ public:
 
     void addNode(std::unique_ptr<Node> node);
 
+    void removeNode(int node_id);
+
 private:
     std::string name;
 
     // add a vector or map of pointers to Nodes here
-    std::vector<std::unique_ptr<Node>> nodes;
+    // std::vector<std::unique_ptr<Node>> nodes;
+
+    std::unordered_map<int, std::unique_ptr<Node>> unordered_map_nodes;
 };
