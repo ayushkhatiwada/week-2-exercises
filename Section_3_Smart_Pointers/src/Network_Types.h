@@ -39,7 +39,7 @@ private:
     std::weak_ptr<Hub> hub;
 };
 
-class Hub
+class Hub : public std::enable_shared_from_this<Hub>
 {
 public:
     Hub(const std::string &n);

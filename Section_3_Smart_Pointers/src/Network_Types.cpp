@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <memory>
 #include <iostream>
 #include <stdexcept>
@@ -42,18 +43,28 @@ Hub::~Hub()
     cout << "Hub " << name << " destroyed." << endl;
 }
 
-void Hub::addNode(std::unique_ptr<Node> node) {
-    // nodes.push_back(std::move(node));
+void Hub::addNode(std::unique_ptr<Node> node)
+{
+    if (!node) return;
 
+    // If node already belongs to a hub, remove it from there
     if (auto oldHub = node->getHub()) {
-        oldHub->removeNode(node->getId());
+        if (oldHub.get() != this) {
+            oldHub->removeNode(node->getId());
+        }
     }
-    
-    unordered_map_nodes[node->getId()] = std::move(node);
+
+    node->setHub(shared_from_this());
+    unordered_map_nodes.emplace(node->getId(), std::move(node));
 }
 
+
 void Hub::removeNode(int node_id) {
-    if (unordered_map_nodes.erase(node_id) == 0) {
-        throw std::invalid_argument("node_id does not exist in unordered_map_nodes");
+    auto it = unordered_map_nodes.find(node_id);;
+    if (it == unordered_map_nodes.end()) {
+        throw std::invalid_argument("node_id not found");
     }
+
+    it->second->setHub(std::weak_ptr<Hub>{});
+    unordered_map_nodes.erase(it);
 }
