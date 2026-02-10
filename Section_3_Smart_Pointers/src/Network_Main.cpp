@@ -18,7 +18,7 @@ int main()
     node1->setHub(hub1_weak_ptr);
 
     // add Node to Hub list
-    hub1->addNode(node1);
+    hub1->addNode(std::move(node1));
 
 
     return 0;
