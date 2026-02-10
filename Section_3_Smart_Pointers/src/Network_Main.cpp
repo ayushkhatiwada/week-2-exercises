@@ -20,6 +20,5 @@ int main()
     // add Node to Hub list
     hub1->addNode(std::move(node1));
 
-
     return 0;
 }
