@@ -1,8 +1,6 @@
 #include <memory>
-#include <iostream>
 #include <string>
-
-using namespace std;
+#include <vector>
 
 // Forward declaration of Hub class.
 // This is needed to let the compiler know that a type called
@@ -16,31 +14,40 @@ class Hub;
 
 class Node
 {
-    public:
+public:
     Node();
 
     ~Node();
 
+    // const here means this member function does not modify the object
+    // except for members explicitly marked `mutable`
     int getId() const;
 
-    private:
+    void setHub(const std::weak_ptr<Hub> &hub);
+
+private:
     // Static variable means same value shared by every object in class
     // This allows us to create a unique id for each Node by increasing
     // each time
     static int next_id;
-    
     int id;
+
     // add a pointer to the Hub here
+    std::weak_ptr<Hub> hub;
 };
 
 class Hub
 {
-    public:
+public:
     Hub(const std::string &n);
 
     ~Hub();
 
-    private:
-    string name;
+    void addNode(std::unique_ptr<Node> node);
+
+private:
+    std::string name;
+
     // add a vector or map of pointers to Nodes here
+    std::vector<std::unique_ptr<Node>> nodes;
 };

@@ -19,16 +19,17 @@ public:
 
     ~Node();
 
+    // const here means this member function does not modify the object
+    // except for members explicitly marked `mutable`
     int getId() const;
 
-    void setHub(const std::shared_ptr<Hub> &hub);
+    void setHub(const std::weak_ptr<Hub> &hub);
 
 private:
     // Static variable means same value shared by every object in class
     // This allows us to create a unique id for each Node by increasing
     // each time
     static int next_id;
-    
     int id;
 
     // add a pointer to the Hub here

@@ -24,8 +24,9 @@ class Reporter
 
 int main()
 {
-    Reporter* reporter1 = new Reporter("raw_pointer_reporter");
-    std::unique_ptr<Reporter> reporter2 = std::make_unique<Reporter>("unique_pointer_reporter");
+    Reporter* reporter1 = new Reporter("reporter1_raw_pointer");
+
+    std::unique_ptr<Reporter> reporter2 = std::make_unique<Reporter>("reporter2_unique_pointer");
     
     return 0;
 }
